@@ -182,7 +182,7 @@ class _LoginPageState extends State<LoginPage>
                         ),
                         const SizedBox(height: 8),
                         const Text(
-                          'Komting Punya',
+                          'milik Komting',
                           style: TextStyle(
                             fontSize: 14,
                             color: Color.fromARGB(255, 0, 0, 0),
