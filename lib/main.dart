@@ -11,21 +11,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // 1. TAMBAHKAN BARIS INI UNTUK MENGHILANGKAN BANNER DEBUG
+      debugShowCheckedModeBanner: false, 
+      
       title: 'Destination Dash',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // 2. UBAH BAGIAN INI
-      // Widget 'home' adalah layar pertama yang akan ditampilkan.
-      // Kita ubah dari MyHomePage menjadi SplashScreen.
       home: SplashScreen(),
     );
   }
 }
 
 // KODE MyHomePage TIDAK PERLU DIUBAH, BIARKAN SAJA DI BAWAH INI
-// Karena nanti SplashScreen akan mengarah ke halaman ini.
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -71,4 +70,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

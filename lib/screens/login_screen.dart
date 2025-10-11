@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dashboard_screen.dart'; 
+import 'dashboard_screen.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -138,39 +139,7 @@ class _LoginPageState extends State<LoginPage>
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        TweenAnimationBuilder(
-                          tween: Tween<double>(begin: 0, end: 1),
-                          duration: const Duration(milliseconds: 300),
-                          builder: (context, scale, child) {
-                            return Transform.scale(
-                              scale: scale,
-                              child: child,
-                            );
-                          },
-                          child: Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFE5E7EB),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  offset: const Offset(0, 5),
-                                  blurRadius: 10,
-                                ),
-                              ],
-                            ),
-                            child: ClipOval(
-                              child: Image.asset(
-                                'logo.png',
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Bagian logo dan lingkaran telah dihapus dari sini
                         const SizedBox(height: 24),
                         const Text(
                           'Selamat Datang!',
@@ -307,5 +276,3 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 }
-
-
