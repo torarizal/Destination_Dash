@@ -1,26 +1,32 @@
-// models/data_hotel.dart
+import 'base_item.dart';
 
-// Model untuk data Hotel, sesuai dengan struktur pada gambar
-class Hotel {
-  final String imageUrl;
-  final String name;
+class Hotel extends BaseItem {
   final String description;
   final double rating;
   final String price;
   final String priceInfo;
 
   Hotel({
-    required this.imageUrl,
-    required this.name,
+    required String imageUrl,
+    required String name,
     required this.description,
     required this.rating,
     required this.price,
     required this.priceInfo,
-  });
+  }) : super(
+          imageUrl: imageUrl,
+          title: name,
+          location: 'Various Locations', // Hotel tidak punya lokasi di data, kita beri default
+        );
+  
+  @override
+  String getCategory() {
+    return 'Hotel';
+  }
 }
 
-// Data dummy untuk hotel
-final List<Hotel> dummyHotels = [
+// Data dummy tidak perlu diubah
+final List<Hotel> dummyHotels= [
   Hotel(
     imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     name: 'Grand Aston',

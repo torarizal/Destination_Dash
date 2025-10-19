@@ -159,7 +159,7 @@ class RestoCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        restaurant.name,
+                        restaurant.title,
                         style: GoogleFonts.playfairDisplay(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -189,7 +189,7 @@ class RestoCard extends StatelessWidget {
                                 const SizedBox(width: 4),
                                 Expanded(
                                   child: Text(
-                                    restaurant.address,
+                                    restaurant.location,
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
                                       color: Colors.grey[400],

@@ -166,7 +166,7 @@ class HotelCard extends StatelessWidget {
                     children: [
                       Text(
                         // DIUBAH: Menggunakan properti dari objek hotel
-                        hotel.name,
+                        hotel.title,
                         style: GoogleFonts.playfairDisplay(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -225,7 +225,7 @@ class HotelCard extends StatelessWidget {
                                   builder: (context) => PaymentScreen(
                                     // DIUBAH: Menggunakan properti dari objek hotel
                                     imageUrl: hotel.imageUrl,
-                                    name: hotel.name,
+                                    name: hotel.title,
                                     price: priceInt,
                                   ),
                                 ),

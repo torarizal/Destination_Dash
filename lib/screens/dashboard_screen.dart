@@ -2,15 +2,18 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// --- DIUBAH: Import diubah untuk menggunakan model data OOP kita ---
+import '../models/base_item.dart';
+import '../models/data_restoran.dart';
+import '../models/data_hotel.dart';
+import '../models/data_wisata.dart';
+import '../models/data_belanja.dart';
+// --- Hapus import 'rekomendasi.dart' karena sudah tidak dipakai ---
 
-// --- import halaman ---
 import 'wisata_screen.dart';
 import 'hotel_screen.dart';
 import 'restoran_screen.dart';
-import 'package:dash_web/models/rekomendasi.dart';
-// --- DIAKTIFKAN KEMBALI ---
 import 'belanja_screen.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -176,7 +179,6 @@ class HomePage extends StatelessWidget {
         _categoryButton(context, Icons.restaurant, 'Restoran'),
         _categoryButton(context, Icons.hotel, 'Hotel'),
         _categoryButton(context, Icons.tour, 'Wisata'),
-        // --- DIAKTIFKAN KEMBALI ---
         _categoryButton(context, Icons.shopping_bag, 'Belanja'),
       ],
     );
@@ -202,7 +204,6 @@ class HomePage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const HotelScreen()),
           );
         }
-        // --- DIAKTIFKAN KEMBALI ---
         else if (label == 'Belanja') {
           Navigator.push(
             context,
@@ -240,9 +241,6 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildRecommendationsSection(BuildContext context) {
-    // Asumsi 'restaurantData', 'hotelData', dll. adalah list global
-    // yang diimpor dari file 'rekomendasi.dart'
-
     return DefaultTabController(
       length: 4,
       child: Container(
@@ -282,10 +280,10 @@ class HomePage extends StatelessWidget {
               height: 250,
               child: TabBarView(
                 children: [
-                  _buildRecommendationCarousel(recommendations: restaurantData),
-                  _buildRecommendationCarousel(recommendations: hotelData),
-                  _buildRecommendationCarousel(recommendations: tourData),
-                  _buildRecommendationCarousel(recommendations: shoppingData),
+                  _buildRecommendationCarousel(items: dummyRestaurants),
+                  _buildRecommendationCarousel(items: dummyHotels),
+                  _buildRecommendationCarousel(items: dummyDestination),
+                  _buildRecommendationCarousel(items: shoppingData),
                 ],
               ),
             ),
@@ -295,21 +293,21 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildRecommendationCarousel(
-      {required List<Recommendation> recommendations}) {
-    if (recommendations.isEmpty) {
+  // --- PENERAPAN POLYMORPHISM DIMULAI DI SINI ---
+  // Widget ini sekarang menerima List<BaseItem>, bukan List<Recommendation>.
+  // Artinya, ia bisa menerima list APA SAJA (Restoran, Hotel, Wisata, Belanja)
+  // selama class-nya adalah turunan dari BaseItem.
+  Widget _buildRecommendationCarousel({required List<BaseItem> items}) {
+    if (items.isEmpty) {
       return Center(
           child: Text('Belum ada rekomendasi.', style: GoogleFonts.roboto()));
     }
     return CarouselSlider.builder(
-      itemCount: recommendations.length,
+      itemCount: items.length,
       itemBuilder: (context, index, realIndex) {
-        final recommendation = recommendations[index];
-        return _buildRecommendationCard(
-          imageUrl: recommendation.imageUrl,
-          title: recommendation.title,
-          location: recommendation.location,
-        );
+        final item = items[index];
+        // Kita cukup memanggil satu widget Card generik.
+        return _buildRecommendationCard(item: item);
       },
       options: CarouselOptions(
         height: 250,
@@ -320,11 +318,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildRecommendationCard({
-    required String imageUrl,
-    required String title,
-    required String location,
-  }) {
+  // --- WIDGET CARD YANG POLIMORFIK ---
+  // Widget ini hanya menerima satu parameter: `BaseItem`.
+  // Ia tidak perlu tahu apakah item itu Hotel atau Restoran.
+  // Ia hanya tahu bahwa setiap BaseItem PASTI punya `imageUrl`, `title`, dan `location`.
+  Widget _buildRecommendationCard({required BaseItem item}) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5.0),
       child: Card(
@@ -336,7 +334,8 @@ class HomePage extends StatelessWidget {
         child: Stack(
           children: [
             Image.network(
-              imageUrl,
+              // Mengakses getter dari BaseItem
+              item.imageUrl,
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -373,7 +372,8 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    // Mengakses getter dari BaseItem
+                    item.title,
                     style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontSize: 18,
@@ -388,7 +388,8 @@ class HomePage extends StatelessWidget {
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
-                          location,
+                          // Mengakses getter dari BaseItem
+                          item.location,
                           style: GoogleFonts.roboto(
                             color: Colors.white70,
                             fontSize: 14,

@@ -1,24 +1,37 @@
-// Model untuk menampung data setiap destinasi
-class Destination {
-  final String imageUrl;
-  final String name;
+import 'base_item.dart';
+
+class Destination extends BaseItem {
+  // Properti unik yang tidak ada di parent
   final String description;
   final double rating;
   final String price;
   final String priceInfo;
 
   Destination({
-    required this.imageUrl,
-    required this.name,
+    // Properti untuk parent
+    required String imageUrl,
+    required String name, // 'name' akan dipetakan ke 'title' di parent
+
+    // Properti unik untuk child
     required this.description,
     required this.rating,
     required this.price,
     required this.priceInfo,
-  });
+  }) : super(
+          imageUrl: imageUrl,
+          title: name, // Mengirim 'name' ke parameter 'title' milik parent
+          location: name.split(',').last.trim(), // Mengambil lokasi dari nama
+        );
+
+  // POLYMORPHISM: Implementasi spesifik untuk class Destination
+  @override
+  String getCategory() {
+    return 'Wisata';
+  }
 }
 
-// Data wisata sekarang dimasukkan langsung di sini
-final List<Destination> dummyDestinations = [
+// Data dummy tidak perlu diubah
+final List<Destination> dummyDestination = [
   Destination(
     imageUrl: 'https://images.unsplash.com/photo-1518548450227-205c40164da2?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     name: 'Pantai Kuta, Bali',

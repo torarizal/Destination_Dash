@@ -1,23 +1,25 @@
-// models/rekomendasi_belanja.dart
+import 'base_item.dart';
 
-// Impor class Recommendation jika berada di file terpisah
-// import 'rekomendasi.dart';
-
-class Belanja {
-  final String imageUrl;
-  final String title;
-  final String location;
-
+class Belanja extends BaseItem {
+  // Class ini tidak punya properti unik, jadi bodynya kosong
   Belanja({
-    required this.imageUrl,
-    required this.title,
-    required this.location,
-  });
+    required String imageUrl,
+    required String title,
+    required String location,
+  }) : super(
+          imageUrl: imageUrl,
+          title: title,
+          location: location,
+        );
+
+  @override
+  String getCategory() {
+    return 'Belanja';
+  }
 }
 
-
-// --- DATA REKOMENDASI BELANJA (10 ITEM) ---
-final List<Belanja> shoppingData = [
+// Data dummy tidak perlu diubah
+final List<Belanja> shoppingData= [
   Belanja(
     imageUrl: 'https://images.unsplash.com/photo-1580828343064-fde4fc206bc6?q=80&w=2071&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     title: 'Jalan Malioboro',

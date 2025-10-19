@@ -11,16 +11,13 @@ class WisataScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // DIUBAH: Menambahkan properti ini agar body bisa berada di belakang AppBar
       extendBodyBehindAppBar: true,
-      // DIUBAH: Menambahkan AppBar untuk tombol kembali
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // Membuat AppBar tidak terlihat
-        elevation: 0, // Menghilangkan bayangan di bawah AppBar
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            // Aksi untuk kembali ke halaman sebelumnya
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
             }
@@ -29,7 +26,6 @@ class WisataScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        // Latar belakang disesuaikan untuk tema wisata
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaGO0by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
@@ -37,18 +33,15 @@ class WisataScreen extends StatelessWidget {
           ),
         ),
         child: Container(
-          // Overlay gelap agar teks mudah dibaca
           color: Colors.black.withOpacity(0.6),
           child: SafeArea(
-            // Memanggil data wisata dari file terpisah
-            child: buildContent(dummyDestinations),
+            child: buildContent(dummyDestination),
           ),
         ),
       ),
     );
   }
 
-  // Widget untuk membangun konten utama (judul dan grid)
   Widget buildContent(List<Destination> data) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -73,7 +66,6 @@ class WisataScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 24.0),
                 child: Column(
                   children: [
-                    // Judul halaman disesuaikan
                     Text(
                       'Mari Jelajahi Indonesia',
                       textAlign: TextAlign.center,
@@ -84,7 +76,6 @@ class WisataScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Subjudul halaman disesuaikan
                     Text(
                       'Jelajahi tempat-tempat paling menakjubkan di Indonesia.',
                       textAlign: TextAlign.center,
@@ -108,7 +99,6 @@ class WisataScreen extends StatelessWidget {
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    // Menggunakan WisataCard untuk menampilkan data
                     return WisataCard(destination: data[index]);
                   },
                   childCount: data.length,
@@ -151,6 +141,7 @@ class WisataCard extends StatelessWidget {
                   topRight: Radius.circular(16.0),
                 ),
                 child: Image.network(
+                  // DIUBAH: Mengakses getter `imageUrl` dari parent (BaseItem)
                   destination.imageUrl,
                   height: 180,
                   width: double.infinity,
@@ -166,7 +157,8 @@ class WisataCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        destination.name,
+                        // DIUBAH: Mengakses getter `title` dari parent (BaseItem)
+                        destination.title,
                         style: GoogleFonts.playfairDisplay(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -177,15 +169,16 @@ class WisataCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
+                        // TIDAK BERUBAH: `description` adalah properti milik Destination
                         destination.description,
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           color: Colors.grey[300],
                         ),
-                        maxLines: 2, // Deskripsi bisa 2 baris
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const Spacer(), // Mendorong konten di bawahnya ke dasar kartu
+                      const Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -194,6 +187,7 @@ class WisataCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
+                                // TIDAK BERUBAH: `priceInfo` adalah properti milik Destination
                                 destination.priceInfo,
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
@@ -201,6 +195,7 @@ class WisataCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
+                                // TIDAK BERUBAH: `price` adalah properti milik Destination
                                 destination.price,
                                 style: GoogleFonts.inter(
                                   fontSize: 16,
@@ -210,10 +205,8 @@ class WisataCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          // DIUBAH: Bagian rating diganti dengan tombol Beli Tiket
                           ElevatedButton(
                             onPressed: () {
-                              // Ambil harga dalam bentuk int dari string (misal: "Rp100.000" -> 100000)
                               final priceInt = int.tryParse(
                                 destination.price.replaceAll(RegExp(r'[^0-9]'), ''),
                               ) ?? 0;
@@ -221,16 +214,17 @@ class WisataCard extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => PaymentScreen(
+                                    // DIUBAH: Mengakses getter dari parent
                                     imageUrl: destination.imageUrl,
-                                    name: destination.name,
+                                    name: destination.title,
                                     price: priceInt,
                                   ),
                                 ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFFBBF24), // Warna kuning
-                              foregroundColor: Colors.black, // Teks warna hitam
+                              backgroundColor: const Color(0xFFFBBF24),
+                              foregroundColor: Colors.black,
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),

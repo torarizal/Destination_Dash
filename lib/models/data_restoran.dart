@@ -1,23 +1,29 @@
 
-
+import 'base_item.dart';
 // Model untuk data Restoran
-class Restaurant {
-  final String imageUrl;
-  final String name;
-  final String cuisine; // Jenis masakan
+class Restaurant extends BaseItem {
+  final String cuisine;
   final double rating;
-  final String address;
 
   Restaurant({
-    required this.imageUrl,
-    required this.name,
+    required String imageUrl,
+    required String name,
+    required String address, // 'address' akan dipetakan ke 'location'
     required this.cuisine,
     required this.rating,
-    required this.address,
-  });
+  }) : super(
+          imageUrl: imageUrl,
+          title: name,
+          location: address, // Mengirim 'address' ke parameter 'location' milik parent
+        );
+
+  @override
+  String getCategory() {
+    return 'Restoran';
+  }
 }
 
-// Data dummy untuk restoran
+// Data dummy tidak perlu diubah
 final List<Restaurant> dummyRestaurants = [
   Restaurant(
     imageUrl: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
