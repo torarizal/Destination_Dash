@@ -258,4 +258,3 @@ class WisataCard extends StatelessWidget {
     );
   }
 }
-
